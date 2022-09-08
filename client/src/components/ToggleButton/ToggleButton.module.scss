@@ -1,0 +1,45 @@
+@import "../../styles/colors";
+
+.container {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    .toggle {
+        border: 0;
+        border-radius: 50px;
+        cursor: pointer;
+        height: 25px;
+        position: relative;
+        width: 50px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+    }
+    .pin {
+        position: absolute;
+        height: 21px;
+        width: 21px;
+        background-color: white;
+        top: 2px;
+        border-radius: 30px;
+    }
+}
+
+.on {
+    .toggle {
+        background-color: $main-color;
+    }
+    .pin {
+        transition: all 0.2s ease-in-out;
+        left: 27px;
+    }
+}
+
+.off {
+    .toggle {
+        background-color: lightgray;
+    }
+    .pin {
+        transition: all 0.2s ease-in-out;
+        left: 2px;
+    }
+}

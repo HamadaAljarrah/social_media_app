@@ -1,0 +1,61 @@
+@import "../../styles/colors";
+
+.container {
+    .form {
+        margin: auto;
+        margin-top: 100px;
+        width: 500px;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 12px 24px rgba(68, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        gap: 35px;
+        h1 {
+            text-align: center;
+        }
+        .header{
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .footer{
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            p{
+                font-size: 0.85rem;
+            }
+            a{
+                color: $main-color;
+                font-size: 0.85rem;
+
+            }
+        }
+      
+    }
+}
+
+.light {
+    .form {
+        background: white;
+        h1 {
+            color: $text-color;
+        }
+        .footer{
+            color: $text-color;
+        }
+    }
+}
+
+.dark {
+    .form {
+        background: #171717;
+        h1 {
+            color: $text-color-dark;
+        }
+        .footer{
+            color: $text-color-dark;
+        }
+    }
+}

@@ -1,0 +1,29 @@
+@import "../../styles/colors";
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+    p{
+        text-align: center;
+        padding: 10px;
+    }
+
+
+}
+
+.light {
+    background-color: $background;
+    p {
+        color: $text-color;
+    }
+}
+.dark {
+    background-color: $background-dark;
+
+    p {
+        color: $text-color-dark;
+    }
+}
