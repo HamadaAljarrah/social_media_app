@@ -1,31 +1,31 @@
 import { Response } from "express";
-import { sendResponse } from "../Common/services/services";
+import Service from "../Common/services/services";
 import { UserReq } from "./user.interface";
-import { checkCurrentUser, createNewUser, findUserById, getUsers, processUserCreation } from "./user.service";
+import UserServer from "./user.service";
 
 
 class UserController {
     async readUser(req: UserReq, res: Response) {
-        const user = await findUserById(req.params.userId)
-        sendResponse(res, user)
+        const user = await UserServer.findUserById(req.params.userId)
+        Service.sendResponse(res, user)
     }
 
     async getAllUsers(req: UserReq, res: Response) {
-        const users = await getUsers();
-        sendResponse(res, users)
+        const users = await UserServer.getUsers();
+        Service.sendResponse(res, users)
     }
 
     async getCurrentUser(req: UserReq, res: Response) {
-        const user = checkCurrentUser(req);
-        sendResponse(res, user);
+        const user = UserServer.checkCurrentUser(req);
+        Service.sendResponse(res, user);
     }
 
     async createUser(req: UserReq, res: Response) {
-        const processResult = await processUserCreation(req.body);
+        const processResult = await UserServer.processUserCreation(req.body);
         if (!processResult.success)
-            return sendResponse(res, processResult)
-        const user = await createNewUser(req.body);
-        sendResponse(res, user)
+            return Service.sendResponse(res, processResult)
+        const user = await UserServer.createNewUser(req.body);
+        Service.sendResponse(res, user)
     }
 
     async updateUser(req: UserReq, res: Response) { }

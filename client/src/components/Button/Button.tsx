@@ -6,20 +6,18 @@ import classes from './Button.module.scss'
 interface Props {
     text: string;
     varaint: 'primary' | 'ghost' | 'text'
-    type: 'submit' | 'reset' | 'button'
     herf?: string;
-    onClick?: () => any;
+    [x: string]: any;
 }
 
-export const Button = ({ text, onClick, varaint, herf, type }: Props) => {
+export const Button = ({ text , varaint, herf, props }: Props) => {
     const { theme } = useTheme();
 
     if (!herf) {
         return (
             <button
                 className={classes.button + " " + classes[theme] + " " + classes[varaint]}
-                onClick={onClick}
-                type={type}
+                {...props}
             >
                 {text}
             </button>
@@ -29,9 +27,7 @@ export const Button = ({ text, onClick, varaint, herf, type }: Props) => {
             <Link href={herf}>
                 <button
                     className={classes.button + " " + classes[theme] + " " + classes[varaint]}
-                    onClick={onClick}
-                    type={type}
-
+                    {...props}
                 >
                     {text}
                 </button>

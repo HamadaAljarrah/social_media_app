@@ -1,19 +1,41 @@
 import Link from 'next/link'
-import React from 'react'
+import { useRouter } from 'next/router'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { Button } from '../../components/Button/Button'
 import { Input } from '../../components/Input/Input'
 import { useTheme } from '../../context/theme.context'
+import { sendAuthRequset, setWithExpiry } from '../../services/auth'
+import { Login } from '../../types/user'
 import classes from './auth.module.scss'
 
 
 const Login = () => {
     const { theme } = useTheme();
+    const router = useRouter();
+    const [loading, setLoading] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>();
+    const { register, handleSubmit } = useForm<Login>();
+
+
+    const onSubmit = async (data: Login) => {
+        setLoading(true);
+        const response = await sendAuthRequset('login', data);
+        if (response.success){
+            const token = response.data.token;
+            const oneHour = 1000*60*60;
+            setWithExpiry('token', token, oneHour);
+            router.push("/user/profile");
+        }
+        setMessage(response.message)
+    }
 
 
     return (
-        <div className={classes.container + " " + classes[theme]}>
+        <div onSubmit={handleSubmit(onSubmit)} className={classes.container + " " + classes[theme]}>
             <form className={classes.form}>
                 <h1>Login</h1>
+                {message && <p>{message}</p>}
                 <div className={classes.header}>
                     <Input
                         type='email'
@@ -21,6 +43,7 @@ const Login = () => {
                         htmlFor='email'
                         id='email'
                         placeholder='Enter Your Email'
+                        register={register('email')}
                     />
                     <Input
                         type='password'
@@ -28,13 +51,14 @@ const Login = () => {
                         htmlFor='password'
                         id='password'
                         placeholder='Enter Your Password'
+                        register={register('password')}
                     />
                 </div>
                 <div className={classes.footer}>
-                    <Button type='submit' varaint='primary' text='Login' />
+                    {!loading && <Button type='submit' varaint='primary' text='Login' />}
+                    {loading && <Button type='submit' varaint='primary' text='Logging in...' disabled />}
                     <p>Don't have an account? <Link href='/auth/register'>Sign up</Link></p>
                 </div>
-
 
             </form>
         </div>

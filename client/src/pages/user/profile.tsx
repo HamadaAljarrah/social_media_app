@@ -11,7 +11,7 @@ const Profile = () => {
     return (
         <div className={classes.container + " " + classes[theme]}>
             <div className={classes.image}>
-                <img src="./avatar.png" alt="" />
+                <img src="/avatar.png" alt="avatar" />
                 <CameraIcon />
             </div>
             <div className={classes.name}>

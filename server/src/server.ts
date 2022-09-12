@@ -1,12 +1,14 @@
 import dotenv from 'dotenv'
 if (process.env.NODE_ENV !== "production") { dotenv.config() }
 import express, { json, urlencoded } from 'express';
+import cors from 'cors'
 import { Server } from './App/Server';
 import { AuthRoutes } from './Auth/auth.router';
 import { UserRoutes } from './User/user.router';
 
 const app = express();
-app.use(json())
+app.use(json());
+app.use(cors());
 app.use(urlencoded({ extended: false }))
 
 const routes = [
