@@ -1,11 +1,20 @@
 import Link from 'next/link'
 import React from 'react'
+import { useForm } from 'react-hook-form'
 import { Button } from '../../components/Button/Button'
 import { Input } from '../../components/Input/Input'
 import { useTheme } from '../../context/theme.context'
+import { Register } from '../../types/user'
 import classes from './auth.module.scss'
+
+
 const Register = () => {
     const { theme } = useTheme();
+    const { register, handleSubmit } = useForm<Register>();
+    const onSubmit = async (data: Register) => {
+
+    }
+
     return (
         <div className={classes.container + " " + classes[theme]}>
             <form className={classes.form}>
@@ -17,6 +26,7 @@ const Register = () => {
                         htmlFor='name'
                         id='name'
                         placeholder='Enter Your Name'
+                        register={register('name')}
                     />
                     <Input
                         type='email'
@@ -24,6 +34,8 @@ const Register = () => {
                         htmlFor='email'
                         id='email'
                         placeholder='Enter Your Email'
+                        register={register('email')}
+
                     />
                     <Input
                         type='password'
@@ -31,6 +43,8 @@ const Register = () => {
                         htmlFor='password'
                         id='password'
                         placeholder='Enter Your Password'
+                        register={register('password')}
+
                     />
                 </div>
                 <div className={classes.footer}>

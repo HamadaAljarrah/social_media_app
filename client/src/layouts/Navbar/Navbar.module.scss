@@ -1,4 +1,4 @@
-@import '../../styles/colors';
+@import "../../styles/colors";
 
 .cantainer {
     display: flex;
@@ -8,7 +8,7 @@
     border-bottom: 0.5px solid $border-color;
     position: relative;
     margin-bottom: 38px;
-    .logo{
+    .logo {
         align-self: flex-end;
         cursor: pointer;
     }
@@ -18,17 +18,53 @@
         align-items: center;
         justify-content: space-between;
     }
-    .toggle{
+    .toggle {
         position: absolute;
-        right: 0;
+        left: 0;
         bottom: -34px;
     }
 
+    .tools {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 24px;
+        .user {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            img {
+                width: 30px;
+            }
+            p {
+                font-weight: 500;
+            }
+            svg {
+                padding-top: 3px;
+            }
+        }
+    }
+    .notification,
+    .messages {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
 }
 
-.light{
+.light {
     color: $text-color;
+    .menu {
+        background: white;
+    }
 }
-.dark{
+.dark {
     color: $text-color-dark;
+    .menu {
+        background: $second-background-dark;
+    }
 }
