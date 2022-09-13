@@ -1,20 +1,33 @@
-import React, { createContext, ReactNode, useContext, useState } from 'react'
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { useUser } from "../hooks/useUser";
+import { IUser } from "../types/user";
 
-interface IAuth {
-    isAuthenticated: boolean;
-    setIsAuthticated: any
-}
+
+
 type Props = {
     children: ReactNode
 }
-const authContext = createContext<IAuth>({} as IAuth)
+type AuthState = {
+    isAuthenticated: boolean,
+    setIsAuthenticated: any
+}
 
+const authContext = createContext<AuthState>({} as AuthState)
 
 export const AuthProvider = ({ children }: Props) => {
-    const [isAuthenticated, setIsAuthticated] = useState<boolean>(false);
+    const { user } = useUser();
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
+    useEffect(() => {
+        if (user != null) setIsAuthenticated(true);
+        if (user == null) setIsAuthenticated(false);
+    }, [])
+
+    const value = { isAuthenticated, setIsAuthenticated }
     return (
-        <authContext.Provider value={{ isAuthenticated, setIsAuthticated }}>{children}</authContext.Provider>
+        <authContext.Provider value={value}>
+            {children}
+        </authContext.Provider>
     )
 }
 

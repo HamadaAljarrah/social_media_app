@@ -1,18 +1,19 @@
 import { Request, Response } from "express";
 import Service from "../Common/services/services";
 import { UserReq } from "../User/user.interface";
-import { createAccessToken, findUserByEmail } from "./auth.service";
+import AuthService from "./auth.service";
 
 class AuthController {
     async login(req: UserReq, res: Response) {
-        const result = await findUserByEmail(req.body.email);
+        const { email, password } = req.body
+        const result = await AuthService.validateLogin(email, password);
         if (!result.success)
             return Service.sendResponse(res, result);
 
         const payload = { user: result.data }
         const oneHour = 1000 * 60 * 60;
 
-        const token = createAccessToken(payload, oneHour)
+        const token = AuthService.createAccessToken(payload, oneHour)
         const response = {
             ...result,
             data: {

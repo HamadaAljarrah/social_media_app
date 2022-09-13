@@ -7,10 +7,11 @@ interface Props {
     text: string;
     varaint: 'primary' | 'ghost' | 'text'
     herf?: string;
+    onClick?: () => void
     [x: string]: any;
 }
 
-export const Button = ({ text , varaint, herf, props }: Props) => {
+export const Button = ({ text, varaint, herf, onClick, props }: Props) => {
     const { theme } = useTheme();
 
     if (!herf) {
@@ -18,6 +19,7 @@ export const Button = ({ text , varaint, herf, props }: Props) => {
             <button
                 className={classes.button + " " + classes[theme] + " " + classes[varaint]}
                 {...props}
+                onClick={onClick}
             >
                 {text}
             </button>
@@ -28,6 +30,7 @@ export const Button = ({ text , varaint, herf, props }: Props) => {
                 <button
                     className={classes.button + " " + classes[theme] + " " + classes[varaint]}
                     {...props}
+                    onClick={onClick}
                 >
                     {text}
                 </button>

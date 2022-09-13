@@ -6,9 +6,9 @@
     border-radius: 6px;
     font-size: 1rem;
     cursor: pointer;
-    transition: transform 0.2s ease-in-out;
+    transition: background 0.2s ease-in-out;
     &:hover {
-        transform: translateY(-2px);
+        background: #dd2250;
     }
 }
 
@@ -20,6 +20,12 @@
     background: transparent;
     border: 1px solid $main-color;
     color: $main-color;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background: transparent;
+        color: #dd2250;
+    }
 }
 .text {
     background: transparent;
@@ -27,4 +33,3 @@
     font-weight: 600;
     color: $main-color;
 }
-

@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from '../../components/Button/Button'
 import { Input } from '../../components/Input/Input'
+import { useAuth } from '../../context/auth.context'
 import { useTheme } from '../../context/theme.context'
 import { sendAuthRequset, setWithExpiry } from '../../services/auth'
 import { Login } from '../../types/user'
@@ -16,18 +17,21 @@ const Login = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [message, setMessage] = useState<string>();
     const { register, handleSubmit } = useForm<Login>();
-
+    const { setIsAuthenticated } = useAuth();
 
     const onSubmit = async (data: Login) => {
         setLoading(true);
         const response = await sendAuthRequset('login', data);
-        if (response.success){
+        if (response.success) {
             const token = response.data.token;
-            const oneHour = 1000*60*60;
+            const oneHour = 1000 * 60 * 60;
             setWithExpiry('token', token, oneHour);
+            setLoading(false);
+            setIsAuthenticated(true);
             router.push("/user/profile");
         }
         setMessage(response.message)
+        setLoading(false);
     }
 
 

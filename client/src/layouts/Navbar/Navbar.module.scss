@@ -29,6 +29,21 @@
         justify-content: center;
         align-items: center;
         gap: 24px;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        &:hover .dropdownContent {
+            display: flex;
+
+            cursor: pointer;
+            div {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+            }
+        }
         .user {
             display: flex;
             justify-content: center;
@@ -45,7 +60,23 @@
                 padding-top: 3px;
             }
         }
+        .dropdownContent {
+            display: flex;
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            align-items: flex-start;
+            justify-items: center;
+            position: absolute;
+            width: 100%;
+            @include box-shadow;
+            border-radius: 7px;
+            padding: 16px 20px;
+            font-weight: 600;
+            z-index: 1;
+        }
     }
+
     .notification,
     .messages {
         display: flex;
@@ -61,10 +92,16 @@
     .menu {
         background: white;
     }
+    .dropdownContent {
+        background: white;
+    }
 }
 .dark {
     color: $text-color-dark;
     .menu {
+        background: $second-background-dark;
+    }
+    .dropdownContent {
         background: $second-background-dark;
     }
 }

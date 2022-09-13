@@ -1,13 +1,10 @@
-import { Login, Register } from "../types/user";
+import { IUser, Login, Register, ServerResponse } from "../types/user";
 import { SERVER_URL } from "../types/variables";
 
 
 
-export const sendAuthRequset = async (requsetType: 'login' | 'register', data: Register | Login)=>{
-    
-    const url = requsetType === 'login' ? SERVER_URL + 'auth/login': SERVER_URL + 'users'
-    console.log(url);
-
+export const sendAuthRequset = async (requsetType: 'login' | 'register', data: Register | Login) => {
+    const url = requsetType === 'login' ? SERVER_URL + 'auth/login' : SERVER_URL + 'users'
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -18,16 +15,28 @@ export const sendAuthRequset = async (requsetType: 'login' | 'register', data: R
     return await response.json()
 }
 
-export const setWithExpiry = (key: string, value:any, exp: number)=>{
+export const requsetCurrentUser = async (token: string) => {
+    const url = SERVER_URL + 'user'
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    })
+    return await response.json()
+}
+
+export const setWithExpiry = (key: string, value: any, exp: number) => {
     const now = new Date();
     const item = {
         data: value,
         expiry: now.getTime() + exp
-    } 
+    }
     localStorage.setItem(key, JSON.stringify(item));
 }
 
-export const getWithExpiry = (key: string)=>{
+export const getWithExpiry = (key: string) => {
     const itemString = localStorage.getItem(key)
     if (!itemString) return null
 
@@ -37,5 +46,18 @@ export const getWithExpiry = (key: string)=>{
         localStorage.removeItem(key)
         return null
     }
-    return item.value
+    return item.data
+}
+
+export const checkIfLoggedin = async (token: string): Promise<ServerResponse<IUser>> => {
+    const url = SERVER_URL + 'user';
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    })
+    const result = await response.json();
+    return result
 }

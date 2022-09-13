@@ -5,6 +5,7 @@ export interface IUser {
     name: UserDocument['name'],
     email: UserDocument['email'],
     password: UserDocument['password'],
+    friends: UserDocument['friends']
     _id: UserDocument['_id'],
 
 }
