@@ -1,3 +1,4 @@
+import { Cookies } from "react-cookie";
 import { IUser, Login, Register, ServerResponse } from "../types/user";
 import { SERVER_URL } from "../types/variables";
 
@@ -48,6 +49,27 @@ export const getWithExpiry = (key: string) => {
     }
     return item.data
 }
+
+export const setCookie = (key: string, value: any, maxAge: number): void => {
+    const cookie = new Cookies();
+    const cookieOptions = {
+        path: "/",
+        maxAge: maxAge,
+        secure: true,
+        sameSite: true
+    }
+    cookie.set(key, value, cookieOptions)
+}
+export const getCookie = (key: string): any => {
+    const cookie = new Cookies();
+    return cookie.get(key);
+}
+export const removeCookie = (key: string): void => {
+    const cookie = new Cookies();
+    cookie.remove(key);
+}
+
+
 
 export const checkIfLoggedin = async (token: string): Promise<ServerResponse<IUser>> => {
     const url = SERVER_URL + 'user';
