@@ -1,5 +1,4 @@
-import { Cookies } from "next/dist/server/web/spec-extension/cookies";
-
+import { Cookies } from "react-cookie"
 
 class Cookie {
     private cookie: any;
@@ -10,10 +9,10 @@ class Cookie {
 
     public set(key: string, value: any, maxAge: number): void {
         const cookieOptions = {
-            path: "/",
+            // path: "/",
             maxAge: maxAge,
-            secure: true,
-            sameSite: true
+            // secure: true,
+            // sameSite: true
         }
         this.cookie.set(key, value, cookieOptions)
     }
@@ -27,4 +26,4 @@ class Cookie {
     }
 }
 
-export default Cookie
+export default new Cookie

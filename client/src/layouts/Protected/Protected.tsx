@@ -1,15 +1,18 @@
-import { useRouter } from 'next/router';
-import React, { ReactNode } from 'react'
-import { useUser } from '../../hooks/useUser'
+import { ReactNode, useEffect } from 'react'
+import { useAuth } from '../../context/auth.context';
+import { useRefresher } from '../../hooks/useRefresh';
 
 export const Protected = ({ children }: { children: ReactNode }): any => {
-    const { isPending, isError } = useUser();
-    const router = useRouter();
-    if (isPending) return <h1>Loading...</h1>
-    if (isError) {
-        router.push('/auth/login')
-        return <h1>Loading...</h1>
-    }
+    const { currentUser } = useAuth()
+    const { navigate } = useRefresher();
+
+    useEffect(() => {
+        if (!currentUser) {
+            navigate('/auth/login')
+            return
+        }
+    }, [currentUser])
+
     return children
 
 }

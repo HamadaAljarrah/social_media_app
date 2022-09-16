@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
 
 interface Refresh {
-    navigate: () => Promise<boolean>;
+    navigate: (path: string) => Promise<boolean>;
     refreshSSR: () => Promise<boolean>;
 }
 
-export function useRefresher(path: string): Refresh {
+export function useRefresher(): Refresh {
     const router = useRouter();
-    const navigate = () => router.push(path);
+    const navigate = (path: string) => router.push(path);
     const refreshSSR = () => router.replace(router.asPath);
     return { navigate, refreshSSR };
 }

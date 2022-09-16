@@ -1,32 +1,28 @@
-import { useEffect, useState } from "react";
-import { checkIfLoggedin, getWithExpiry } from "../services/auth";
-import { IUser } from "../types/user";
+import { useEffect, useState } from "react"
+import { requsetCurrentUser } from "../services/auth";
+import Cookie from "../services/cookie"
 
 
 export const useUser = () => {
-    const [isPending, setIsPending] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isError, setIsError] = useState<any>(null);
-    const [user, setUser] = useState<IUser | undefined>(undefined);
-
+    const [user, setUser] = useState<any>(null);
 
     useEffect(() => {
-        const checkAuthState = async () => {
-            setIsPending(true);
-            const result = await checkIfLoggedin(getWithExpiry('token'))
-            if (result.success) {
-                setIsPending(false);
-                setIsError(null)
-                setUser(result.data)
 
-            }
-            else {
-                setIsPending(false);
-                setIsError(result.message)
-                setUser(undefined)
-            }
-        }
-        checkAuthState()
+        requsetCurrentUser(Cookie.get('token'))
+            .then((response) => {
+                setUser(response.data)
+                setIsLoading(false)
+                setIsError(null)
+            })
+            .catch((err) => {
+                setUser(null)
+                setIsLoading(false)
+                setIsError(err)
+            })
+
     }, [])
 
-    return { isPending, isError, user }
+    return { isLoading, isError, user }
 }
