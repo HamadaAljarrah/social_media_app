@@ -1,28 +1,27 @@
 import { useEffect, useState } from "react"
-import { requsetCurrentUser } from "../services/auth";
-import Cookie from "../services/cookie"
+import sendRequset from "../services/auth";
 
 
-export const useUser = () => {
+export const useFetch = (url: string, token?: string) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isError, setIsError] = useState<any>(null);
-    const [user, setUser] = useState<any>(null);
+    const [data, setData] = useState<any>(null);
 
     useEffect(() => {
 
-        requsetCurrentUser(Cookie.get('token'))
+        sendRequset.GET(url)
             .then((response) => {
-                setUser(response.data)
+                setData(response.data)
                 setIsLoading(false)
                 setIsError(null)
             })
             .catch((err) => {
-                setUser(null)
+                setData(null)
                 setIsLoading(false)
                 setIsError(err)
             })
 
     }, [])
 
-    return { isLoading, isError, user }
+    return { isLoading, isError, data }
 }

@@ -9,7 +9,7 @@ class Cookie {
 
     public set(key: string, value: any, maxAge: number): void {
         const cookieOptions = {
-            // path: "/",
+            //path: "/",
             maxAge: maxAge,
             // secure: true,
             // sameSite: true

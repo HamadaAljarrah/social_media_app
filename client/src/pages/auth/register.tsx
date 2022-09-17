@@ -1,34 +1,23 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from '../../components/Button/Button'
 import { Input } from '../../components/Input/Input'
+import { useAuth } from '../../context/auth.context'
 import { useTheme } from '../../context/theme.context'
-import { sendAuthRequset, setWithExpiry } from '../../services/auth'
 import { Register } from '../../types/user'
 import classes from './auth.module.scss'
 
 
 const Register = () => {
     const [message, setMessage] = useState<string>();
-    const [loading, setLoading] = useState<boolean>(false);
-
     const { theme } = useTheme();
-    const router = useRouter();
+    const { signUp } = useAuth();
     const { register, handleSubmit } = useForm<Register>();
 
     const onSubmit = async (data: Register) => {
-        setLoading(true);
-        const response = await sendAuthRequset('register', data);
-        if (response.success) {
-            setLoading(false);
-            router.push("/auth/login");
-        } else {
-            setMessage(response.message)
-            setLoading(false);
-        }
-
+        const response = await signUp(data);
+        if (!response.success) setMessage(response.message)
     }
 
     return (
@@ -65,8 +54,7 @@ const Register = () => {
                     />
                 </div>
                 <div className={classes.footer}>
-                    {!loading && <Button type='submit' varaint='primary' text='Sign up' />}
-                    {loading && <Button type='submit' varaint='primary' text='Signing up...' disabled />}
+                    <Button type='submit' varaint='primary' text='Sign up' />
                     <p>Already have an account? <Link href='/auth/login'>Login</Link></p>
                 </div>
 

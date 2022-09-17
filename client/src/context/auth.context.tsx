@@ -1,35 +1,35 @@
 import { createContext, ReactNode, useContext, useEffect, useLayoutEffect, useState } from "react";
+import { useFetch } from "../hooks/useFetch";
 import { useRefresher } from "../hooks/useRefresh";
-import { useUser } from "../hooks/useUser";
-import { sendAuthRequset } from "../services/auth";
+import sendRequset from "../services/auth";
 import Cookie from "../services/cookie"
-import { Login } from "../types/user";
+import { Login, Register, ServerResponse } from "../types/user";
 
 
 type AuthState = {
     currentUser?: any;
-    login: (data: Login) => Promise<any>;
+    isLoading: boolean,
+    login: (data: Login) => Promise<ServerResponse<any>>;
+    signUp: (data: Register) => Promise<ServerResponse<any>>;
     logout: () => void;
+
 }
 
 const authContext = createContext<AuthState>({} as AuthState)
 
 const useAuthProvider = () => {
 
-    const { user } = useUser();
+    const { data: user, isLoading } = useFetch("user");
+
     const { navigate } = useRefresher();
     const [currentUser, setCurrentUser] = useState<any>();
-
-    useEffect(() => {
-        setCurrentUser(user);
-    }, [user])
+    useEffect(() => { setCurrentUser(user); }, [user])
 
     const login = async (data: Login) => {
-        const response = await sendAuthRequset('login', data);
+        const response = await sendRequset.POST('auth/login', data);
         if (response.success) {
             const token = response.data.token;
-            const oneHour = 1000 * 60 * 60;
-            Cookie.set('token', token, oneHour);
+            Cookie.set('token', token, 60 * 60);
             setCurrentUser(response.data.user)
             navigate("/user/profile")
         }
@@ -42,7 +42,13 @@ const useAuthProvider = () => {
         navigate("/auth/login")
     };
 
-    return { currentUser, login, logout };
+    const signUp = async (data: Register) => {
+        const response = await sendRequset.POST('users', data);
+        if (response.success) navigate("/auth/login")
+        return response;
+    }
+
+    return { currentUser, login, logout, signUp, isLoading };
 }
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
