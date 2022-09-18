@@ -1,21 +1,19 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react'
 import { Button } from '../../components/Button/Button';
 import { useAuth } from '../../context/auth.context';
 import { useTheme } from '../../context/theme.context'
 import { CameraIcon, EditIcon } from '../../icons/icon';
+import { IUser } from '../../types/user';
+import Login from '../auth/login';
 import classes from './Profile.module.scss'
 
 
 
-const Profile = () => {
+
+const User = ({ currentUser }: {currentUser: IUser}) => {
     const { theme } = useTheme();
-    const { currentUser, isLoading } = useAuth();
-
-
-    if (isLoading) return <h1>Loading...</h1>
-    if (!currentUser) return <h1>login to access</h1>
-
     return (
         <div className={classes.container + " " + classes[theme]}>
             {currentUser &&
@@ -46,6 +44,14 @@ const Profile = () => {
         </div>
 
     )
+}
+
+
+const Profile = () => {
+    const { currentUser, isLoading } = useAuth();
+    if (isLoading) return <h1>Loading...</h1>
+    if (!currentUser) return <Login />
+    return <User currentUser={currentUser} />
 }
 
 export default Profile

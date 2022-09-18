@@ -3,15 +3,16 @@ import { useFetch } from "../hooks/useFetch";
 import { useRefresher } from "../hooks/useRefresh";
 import sendRequset from "../services/auth";
 import Cookie from "../services/cookie"
-import { Login, Register, ServerResponse } from "../types/user";
+import { IUser, Login, Register, ServerResponse } from "../types/user";
 
 
 type AuthState = {
-    currentUser?: any;
+    currentUser?: IUser;
     isLoading: boolean,
     login: (data: Login) => Promise<ServerResponse<any>>;
     signUp: (data: Register) => Promise<ServerResponse<any>>;
     logout: () => void;
+    isError: any;
 
 }
 
@@ -19,11 +20,11 @@ const authContext = createContext<AuthState>({} as AuthState)
 
 const useAuthProvider = () => {
 
-    const { data: user, isLoading } = useFetch("user");
+    const { data: user, isLoading, isError } = useFetch("user");
 
     const { navigate } = useRefresher();
     const [currentUser, setCurrentUser] = useState<any>();
-    useEffect(() => { setCurrentUser(user); }, [user])
+    useEffect(() => { setCurrentUser(user); }, [user, isLoading])
 
     const login = async (data: Login) => {
         const response = await sendRequset.POST('auth/login', data);
@@ -48,7 +49,7 @@ const useAuthProvider = () => {
         return response;
     }
 
-    return { currentUser, login, logout, signUp, isLoading };
+    return { currentUser, login, logout, signUp, isLoading, isError };
 }
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
