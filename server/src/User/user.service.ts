@@ -85,7 +85,7 @@ class UserService {
             data: users
         }
     }
-    
+
     public checkCurrentUser(req: UserReq): ServerResponse<IUser> {
 
         const user = req.user
@@ -103,6 +103,7 @@ class UserService {
             data: user
         }
     }
+
     public async findUserById(_id: string): Promise<ServerResponse<IUser>> {
         const user = await User.findById(_id);
         if (user == null)
@@ -118,6 +119,26 @@ class UserService {
             message: 'User is found',
             data: user
         }
+    }
+
+    public async updateUser(_id: string, data: IUser): Promise<ServerResponse<any>> {
+        const { name } = data;
+
+        const response = await User.findByIdAndUpdate(_id, { name})
+        if (response == null) {
+            return {
+                status: 400,
+                success: false,
+                message: "User not found",
+            }
+        }
+        return {
+            status: 200,
+            success: true,
+            message: 'User is updated',
+            data: await User.findById(_id)
+        }
+
     }
 
 }

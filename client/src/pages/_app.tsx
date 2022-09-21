@@ -7,6 +7,7 @@ import { ThemProvider } from '../context/theme.context'
 import { Footer } from '../layouts/Footer/Footer'
 import { AuthProvider } from '../context/auth.context'
 
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemProvider>
@@ -20,6 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Background>
       </AuthProvider>
     </ThemProvider>
+
 
 
   )

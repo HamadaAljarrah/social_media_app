@@ -28,7 +28,10 @@ class UserController {
         Service.sendResponse(res, user)
     }
 
-    async updateUser(req: UserReq, res: Response) { }
+    async updateUser(req: UserReq, res: Response) {
+        const respose = await UserServer.updateUser(req.user?._id, req.body)
+        Service.sendResponse(res, respose);
+     }
     async deleteUser(req: UserReq, res: Response) { }
 
 
