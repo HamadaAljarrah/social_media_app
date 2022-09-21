@@ -3,21 +3,29 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from '../../components/Button/Button'
 import { Input } from '../../components/Input/Input'
-import { useAuth } from '../../context/auth.context'
 import { useTheme } from '../../context/theme.context'
-import { Register } from '../../types/user'
 import classes from './auth.module.scss'
+import SendRequest from "../../services/auth"
+import Router from 'next/router'
+import { useAuth } from '../../context/auth.context'
 
+
+export type Register = {
+    name: string,
+    email: string,
+    password: string,
+}
 
 const Register = () => {
     const [message, setMessage] = useState<string>();
     const { theme } = useTheme();
-    const { signUp } = useAuth();
     const { register, handleSubmit } = useForm<Register>();
+    const { signUp } = useAuth();
 
     const onSubmit = async (data: Register) => {
-        const response = await signUp(data);
+        const response = await signUp(data)
         if (!response.success) setMessage(response.message)
+
     }
 
     return (

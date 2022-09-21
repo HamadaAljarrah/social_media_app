@@ -1,22 +1,15 @@
-import { NextResponse, } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 
-export interface TypedNextRequest extends NextRequest {
-    token?: string
-}
 
-export function middleware(request: TypedNextRequest, res: NextResponse) {
-    const token = request.cookies.get('token');
-    console.log(token);
-    
-    request.token = token;
-    if (token === undefined) {
-        return NextResponse.redirect(new URL('/, request.url'))
+
+export function middleware(req: NextRequest, res: NextResponse) {
+
+    if (req.nextUrl.pathname.startsWith('/user') && req.cookies.get('token') === undefined) {
+        return NextResponse.redirect(new URL('/auth/login', req.url))
 
     }
     return NextResponse.next();
+
 }
 
-export const config = {
-    matcher: '/'
-}

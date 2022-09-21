@@ -1,25 +1,22 @@
-import { NextApiRequest,NextApiResponse } from 'next';
-import React from 'react'
-import { Loader } from '../../components/Loader/Loader';
-import { useAuth } from '../../context/auth.context';
-import Login from '../auth/login';
+import { NextApiRequest } from 'next';
+import SendRequest from "../../services/auth"
+import { IUser } from '../../types/user';
 import { User } from './User';
 
-
-export default function Profile() {
-    const { currentUser, isLoading } = useAuth();
-    if (isLoading) return <Loader />
-    if (!currentUser) return <Login />
-    return <User currentUser={currentUser} />
+export default function Profile({ user }: { user: IUser }) {
+    return (
+        <User currentUser={user} />
+    )
 }
 
-export function getServerSideProps(req: NextApiRequest, res: NextApiResponse) {
+export async function getServerSideProps({ req }: { req: NextApiRequest }) {
+    const token = req.headers.cookie?.split('=')[1];
+
+    const result = await SendRequest.GET('/user', token)
     return {
         props: {
-
+            user: result.data
         }
     }
 
 }
-
-

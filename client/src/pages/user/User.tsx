@@ -1,31 +1,22 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "../../components/Button/Button";
-import { Input } from "../../components/Input/Input";
-import { Modal } from "../../components/Modal/Modal";
 import { useTheme } from "../../context/theme.context";
 import { CameraIcon, EditIcon } from "../../icons/icon";
 import { IUser } from "../../types/user";
+import { ChangeNameModal } from "./ChangeNameModal";
 import classes from './Profile.module.scss'
 
 
 
 export const User = ({ currentUser }: { currentUser: IUser }) => {
     const { theme } = useTheme();
-    const [open, setOpen] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+
 
     return (
-
         <div className={classes.container + " " + classes[theme]}>
-            <Modal isOpen={open} handleClose={() => setOpen(false)}>
-                <div className={classes.form}>
-                    <Input type='text' htmlFor='changeName' id='changeName' label='Edit name' placeholder='Write your new name' />
-                    <div className={classes.button}>
-                        <Button varaint='primary' type='button' text='Change name' />
-
-                    </div>
-                </div>
-            </Modal>
+            <ChangeNameModal open={openModal} setOpen={setOpenModal} />
             {currentUser &&
                 <>
                     <div className={classes.image}>
@@ -34,7 +25,7 @@ export const User = ({ currentUser }: { currentUser: IUser }) => {
                     </div>
                     <div className={classes.name}>
                         <h2>{currentUser.name}</h2>
-                        <div onClick={() => setOpen(true)}>
+                        <div onClick={() => setOpenModal(true)}>
                             <EditIcon />
 
                         </div>
@@ -59,3 +50,4 @@ export const User = ({ currentUser }: { currentUser: IUser }) => {
 
     )
 }
+

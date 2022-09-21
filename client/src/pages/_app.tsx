@@ -11,19 +11,16 @@ import { AuthProvider } from '../context/auth.context'
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemProvider>
-      <AuthProvider>
-        <Background>
+      <Background>
+        <AuthProvider>
           <Container>
             <Navbar />
             <Component {...pageProps} />
             <Footer />
           </Container>
-        </Background>
-      </AuthProvider>
+        </AuthProvider>
+      </Background>
     </ThemProvider>
-
-
-
   )
 }
 

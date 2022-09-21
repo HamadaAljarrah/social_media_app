@@ -5,17 +5,10 @@ import classes from './Navbar.module.scss'
 import { ArrowIcon, Logo, LogoutIcon, MessageIcon, NotificationIcon } from '../../icons/icon';
 import Link from 'next/link';
 import { useAuth } from '../../context/auth.context';
-import { user } from '../../types/variables';
-import Cookie from "../../services/cookie"
 
 export const AuthNavbar = () => {
     const { toggleTheme, theme } = useTheme();
-    const { logout } = useAuth();
-    const { currentUser } = useAuth();
-    const handleLogout = () => {
-        Cookie.remove('token')
-        logout()
-    }
+    const { currentUser, logout } = useAuth();
 
     return (
         <div className={`${classes.cantainer} ${classes[theme]}`}>
@@ -45,7 +38,7 @@ export const AuthNavbar = () => {
                         </div>
                     </Link>
                     <div className={classes.dropdownContent}>
-                        <div onClick={handleLogout}>
+                        <div onClick={logout}>
                             <LogoutIcon size='20' />
                             <p>Logout</p>
                         </div>

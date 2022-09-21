@@ -5,38 +5,34 @@ import Cookie from "../services/cookie"
 type Method = 'GET' | 'PUT' | 'POST' | 'DELETE'
 
 class sendRequest {
-    private token
 
-    constructor() {
-        this.token = Cookie.get('token');
+
+    public async GET(endPoint: string, token?: string): Promise<ServerResponse<any>> {
+
+        return await this.send(endPoint, 'GET', token);
     }
 
-    public async GET(endPoint: string, data?: any): Promise<ServerResponse<any>> {
+    public async POST(endPoint: string, data?: any, token?: string): Promise<ServerResponse<any>> {
 
-        return await this.send(endPoint, 'GET', data);
+        return await this.send(endPoint, 'POST', token, data);
     }
 
-    public async POST(endPoint: string, data?: any): Promise<ServerResponse<any>> {
+    public async PUT(endPoint: string, data?: any, token?: string): Promise<ServerResponse<any>> {
 
-        return await this.send(endPoint, 'POST', data);
+        return await this.send(endPoint, 'PUT', token, data);
     }
 
-    public async PUT(endPoint: string, data?: any): Promise<ServerResponse<any>> {
+    public async DELETE(endPoint: string, data?: any, token?: string): Promise<ServerResponse<any>> {
 
-        return await this.send(endPoint, 'PUT', data);
+        return await this.send(endPoint, 'DELETE', token, data);
     }
 
-    public async DELETE(endPoint: string, data?: any): Promise<ServerResponse<any>> {
-
-        return await this.send(endPoint, 'DELETE', data);
-    }
-
-    private async send(endPoint: string, method: Method = 'GET', data?: any): Promise<ServerResponse<any>> {
+    private async send(endPoint: string, method: Method, token?: string, data?: any): Promise<ServerResponse<any>> {
         const response = await fetch(SERVER_URL + endPoint, {
             method: method,
             headers: {
                 'Content-type': 'application/json',
-                'Authorization': `Bearer ${this.token}`
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(data)
         })

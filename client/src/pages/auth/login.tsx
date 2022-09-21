@@ -3,11 +3,16 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from '../../components/Button/Button'
 import { Input } from '../../components/Input/Input'
-import { useAuth } from '../../context/auth.context'
 import { useTheme } from '../../context/theme.context'
-import { Login } from '../../types/user'
 import classes from './auth.module.scss'
+import SendRequest from "../../services/auth"
+import Cookie from "../../services/cookie"
+import { Register } from './register'
+import Router, { useRouter } from 'next/router'
+import { useAuth } from '../../context/auth.context'
 
+
+export type Login = Omit<Register, 'name'>
 
 const Login = () => {
     const { theme } = useTheme();
@@ -17,11 +22,9 @@ const Login = () => {
 
     const onSubmit = async (data: Login) => {
         const response = await login(data);
-        if (!response.success) {
-            setMessage(response.message)
-        }
-    }
+        if (!response.success) setMessage(response.message)
 
+    }
     return (
         <div onSubmit={handleSubmit(onSubmit)} className={classes.container + " " + classes[theme]}>
             <form className={classes.form}>

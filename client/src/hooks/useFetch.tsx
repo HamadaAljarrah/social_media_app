@@ -9,7 +9,7 @@ export const useFetch = (url: string, token?: string) => {
 
     useEffect(() => {
 
-        sendRequset.GET(url)
+        sendRequset.GET(url, token)
             .then((response) => {
                 setData(response.data)
                 setIsLoading(false)
