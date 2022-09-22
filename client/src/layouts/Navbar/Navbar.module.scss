@@ -23,7 +23,12 @@
         left: 0;
         bottom: -34px;
     }
-
+    .leftbox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 24px;
+    }
     .tools {
         display: flex;
         justify-content: center;
@@ -78,7 +83,8 @@
     }
 
     .notification,
-    .messages {
+    .messages,
+    .feeds {
         display: flex;
         justify-content: center;
         align-items: center;

@@ -1,6 +1,5 @@
-import { IUser, ServerResponse } from "../types/user";
+import { ServerResponse } from "../types/user";
 import { SERVER_URL } from "../types/variables";
-import Cookie from "../services/cookie"
 
 type Method = 'GET' | 'PUT' | 'POST' | 'DELETE'
 

@@ -1,6 +1,6 @@
 import { NextApiRequest } from 'next';
-import SendRequest from "../../services/auth"
-import { IUser } from '../../types/user';
+import SendRequest from "../../../services/auth"
+import { IUser } from '../../../types/user';
 import { User } from './User';
 
 export default function Profile({ user }: { user: IUser }) {
